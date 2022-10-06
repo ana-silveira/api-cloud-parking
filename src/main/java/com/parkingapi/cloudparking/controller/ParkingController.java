@@ -4,6 +4,7 @@ import com.parkingapi.cloudparking.controller.dto.ParkingDTO;
 import com.parkingapi.cloudparking.controller.mapper.ParkingMapper;
 import com.parkingapi.cloudparking.model.Parking;
 import com.parkingapi.cloudparking.service.ParkingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,13 @@ public class ParkingController {
     // Não recomendável para versões mais antigas do JAVA.
 
     @GetMapping
-    public List<ParkingDTO> findAll(){
+    public ResponseEntity<List<ParkingDTO>> findAll(){
         List<Parking> parkingList =  parkingService.findAll();
         List<ParkingDTO> result;
         result = parkingMapper.parkingDTOList(parkingList);
-        return result;
+        return ResponseEntity.ok(result);
         }
+        // O Response Entity é uma boa prática (encapsula as informações da lista).
         
         /*
         var parking = new Parking();
@@ -42,4 +44,11 @@ public class ParkingController {
             Por isso aplicamos o pattern de DTO, e ele sim vai representar a nossa view para a API.
             Nunca se expõe um objeto de domínio na API, é preciso fazer essa separação! Ver classe ParkingService.
         */
+
+    @GetMapping ("/{id}")
+    public ResponseEntity<ParkingDTO> findById(@PathVariable String id){
+        Parking parking =  parkingService.findById(id);
+        ParkingDTO result = parkingMapper.toParkingDTO(parking);
+        return ResponseEntity.ok(result);
+    }
 }
