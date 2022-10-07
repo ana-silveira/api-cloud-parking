@@ -55,6 +55,8 @@ public class ParkingController {
     @GetMapping ("/{id}")
     public ResponseEntity<ParkingDTO> findById(@PathVariable String id){
         Parking parking =  parkingService.findById(id);
+        /* if (parking == null) { return ResponseEntity.notFound().build();}  - Funciona mas não explica o erro.*/
+        //Vou tratar a minha exceção na camada de Serviço; Não foi necessário mexer no controller.
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.ok(result);
     }
