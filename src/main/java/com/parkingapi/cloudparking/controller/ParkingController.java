@@ -1,9 +1,13 @@
 package com.parkingapi.cloudparking.controller;
 
+import com.parkingapi.cloudparking.controller.dto.ParkingCreateDTO;
 import com.parkingapi.cloudparking.controller.dto.ParkingDTO;
 import com.parkingapi.cloudparking.controller.mapper.ParkingMapper;
 import com.parkingapi.cloudparking.model.Parking;
 import com.parkingapi.cloudparking.service.ParkingService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/parking")
+@Api(tags = "ParkingController")
+
 public class ParkingController {
 
     private final ParkingService parkingService;
@@ -25,6 +31,7 @@ public class ParkingController {
     // Não recomendável para versões mais antigas do JAVA.
 
     @GetMapping
+    @ApiOperation("Find all parkings")
     public ResponseEntity<List<ParkingDTO>> findAll(){
         List<Parking> parkingList =  parkingService.findAll();
         List<ParkingDTO> result;
@@ -50,5 +57,13 @@ public class ParkingController {
         Parking parking =  parkingService.findById(id);
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping
+    public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO dto){
+        var parkingCreate = parkingMapper.toParkingCreate(dto);
+        Parking parking =  parkingService.create(parkingCreate);
+        ParkingDTO result = parkingMapper.toParkingDTO(parking);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 }
