@@ -18,10 +18,8 @@ public class ParkingService {
         var id = getUUID();
         var id1 = getUUID();
 
-        Parking parking = new Parking(id, "DMS-1111", "SC", "CELTA", "PRETO");
-        Parking parking1 = new Parking(id1, "DMS-2222", "SP", "VW GOL", "VERMELHO");
-        parkingMap.put(id, parking);
-        parkingMap.put(id1, parking1);
+        //Parking parking = new Parking(id, "DMS-1111", "SC", "CELTA", "PRETO");
+        //parkingMap.put(id, parking);
 
     }
 
@@ -49,4 +47,26 @@ public class ParkingService {
         parkingMap.put(uuid, parkingCreate);
         return parkingCreate;
     }
+
+    public Parking update(String id, Parking parkingCreate){
+        Parking parking = findById(id);
+        parking.setColor(parkingCreate.getColor());
+        parkingMap.replace(id, parking);
+        return parking;
+
+    }
+
+    public void delete(String id) {
+        findById(id);
+        parkingMap.remove(id);
+    }
+
+    /*
+    public Parking exitTime(String id) {
+        findById(id); // recuperar o estacionado
+        // Atualizar data de saída
+        // calcular o valor (pode fazer uma tabela de valores em que o tempo de cada hora está definido)
+        // retornar data de saida e valor que o cliente deve ser cobrado
+    }
+    */
 }
