@@ -1,9 +1,13 @@
 package com.parkingapi.cloudparking.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity //(name = "Posso criar esse name também se eu quiser uma alternativa ao nome da entidade/classe no banco")
 public class Parking {
 
+    @Id
     private String id;
     private String license;
     private String state;

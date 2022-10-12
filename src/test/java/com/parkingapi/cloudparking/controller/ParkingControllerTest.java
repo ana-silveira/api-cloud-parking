@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT ) // Como está rodando num CI, vou rodar o teste em porta aleatória
-class ParkingControllerTest {
+class ParkingControllerTest  extends AbstractContainerBase {
 
     @LocalServerPort
     private int randomPort;
@@ -30,7 +30,7 @@ class ParkingControllerTest {
                 // .statusCode(201) -> Para confirmar se o status code apresentado é o esperado
                 // .statusCode(HttpStatus.OK.value()) -> Outra forma de escrever, mais apresentável
                 //.extract().response().body().prettyPrint(); (para exibir os itens da Array)
-                .body("license[0]", Matchers.equalTo("DMS-2222"));
+                .body("license[0]", Matchers.equalTo("WRT-5555"));
     }
 
     @Test
@@ -41,7 +41,6 @@ class ParkingControllerTest {
         createDTO.setLicense("WRT-5555");
         createDTO.setModel("BRASILIA");
         createDTO.setState("SP");
-
         RestAssured.given()
                 .when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +51,6 @@ class ParkingControllerTest {
                 .statusCode(HttpStatus.CREATED.value()) // Melhor apresentação do statusCOde
                 .body("license", Matchers.equalTo("WRT-5555")) // Vai funcionar: O retorno é igual ao esperado.
                 .body("color", Matchers.equalTo("AMARELO")); // Vai falhar: Está esperando retorno de AZUL, veio AMARELO.
-
                 //.extract().response().body().prettyPrint(); (para exibir os itens da Array)
 
     }
