@@ -8,3 +8,7 @@ docker stop parking-db
 
 ## Start database
 docker start parking-db
+
+
+## Acessando os recursos seguros: Como chamar a API passando um header de authorization
+http://www.blitter.ser/utils/basic-authentication-header-generator/
